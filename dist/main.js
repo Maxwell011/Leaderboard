@@ -10,6 +10,26 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./modules/api.js":
+/*!************************!*\
+  !*** ./modules/api.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addScore\": () => (/* binding */ addScore),\n/* harmony export */   \"retrieveScores\": () => (/* binding */ retrieveScores)\n/* harmony export */ });\n/* harmony import */ var _scores__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scores */ \"./modules/scores.js\");\n\n\nconst display = (gameData) => {\n  const gameScore = document.querySelector('.show-score');\n  gameScore.innerHTML = '';\n  gameData.sort((a, b) => a.score - b.score);\n  const displayList = gameData\n    .map((list) => `<p class=\"score-list\">${list.user} : ${list.score} </p>`)\n    .join('');\n  gameScore.innerHTML = displayList;\n};\n\nconst addScore = async (user, score) => {\n  const baseUrl = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/';\n  const url = `${baseUrl}games/`;\n  const gameID = 'TxZJWGnmYnPWmpSwkqWN';\n  const payloadObject = new _scores__WEBPACK_IMPORTED_MODULE_0__[\"default\"](user, score);\n  const response = await fetch(`${url}${gameID}/scores/`, {\n    method: 'POST',\n    headers: { 'Content-type': 'application/json' },\n    body: JSON.stringify(payloadObject),\n  });\n  const gameData = await response.json();\n  return gameData;\n};\n\nconst retrieveScores = async () => {\n  const baseUrl = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/';\n  const url = `${baseUrl}games/`;\n  const gameID = 'TxZJWGnmYnPWmpSwkqWN';\n  const response = await fetch(`${url}${gameID}/scores/`);\n  const gameData = await response.json();\n  if (response.ok) {\n    display(gameData.result);\n  }\n};\n\n\n\n\n//# sourceURL=webpack://Leaderboard/./modules/api.js?");
+
+/***/ }),
+
+/***/ "./modules/scores.js":
+/*!***************************!*\
+  !*** ./modules/scores.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Scores)\n/* harmony export */ });\nclass Scores {\n  constructor(user, score) {\n    this.user = user;\n    this.score = score;\n  }\n}\n\n\n//# sourceURL=webpack://Leaderboard/./modules/scores.js?");
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/style.css":
 /*!*************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/style.css ***!
@@ -116,7 +136,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n\n\n\n//# sourceURL=webpack://Leaderboard/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _modules_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/api */ \"./modules/api.js\");\n\n\n\nconst refresh = document.querySelector('#refresh');\nconst form = document.querySelector('#form');\n// const scoreDisplay = document.querySelector('.score-display');\n// scoreDisplay.appendChild('show-score');\n\nform.addEventListener('submit', async (e) => {\n  e.preventDefault();\n  const nameValue = document.querySelector('.user').value;\n  const scoreValue = document.querySelector('.score').value;\n  (0,_modules_api__WEBPACK_IMPORTED_MODULE_1__.addScore)(nameValue, scoreValue);\n  (0,_modules_api__WEBPACK_IMPORTED_MODULE_1__.retrieveScores)();\n  document.querySelector('.user').value = '';\n  document.querySelector('.score').value = '';\n});\n\nrefresh.addEventListener('click', _modules_api__WEBPACK_IMPORTED_MODULE_1__.retrieveScores);\n\n\n//# sourceURL=webpack://Leaderboard/./src/index.js?");
 
 /***/ })
 
